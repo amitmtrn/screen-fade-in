@@ -1,45 +1,49 @@
-(function($, global, undefined) {
-    $.fn.screenFadeIn = function(customSettings) {
+(function ($, global, undefined) {
 
-        var screenFadeInSettings = {
-            fadeDuration: "slow",
-            maxImageLoadTime: 3000 //in milliseconds
+	$.fn.screenFadeIn = function (customSettings) {
 
-        };
+		var screenFadeInSettings = {
+			fadeDuration: "slow",
+			maxImageLoadTime: 3000 //in milliseconds
 
-        var settings = {};
+		};
 
-        $.extend(settings, screenFadeInSettings, customSettings);
+		var settings = {};
 
-        var fadeIn = function(elem) {
-            $(elem).animate({
-                opacity: 1
-            }, {
-                step: function(now, fx) {
-                    $(elem).css("transform", "scale(" + now + ")");
-                },
-                duration: settings.fadeDuration
-            }, 'linear');
-        };
+		$.extend(true, settings, screenFadeInSettings, customSettings);
 
-        $(this).children().each(function(index) {
+		var fadeIn = function ($elem) {
 
-            var child = this;
+			$elem.animate(
+				{
+					opacity: 1
+				}, 
+				{
+					step: function (now, fx) {
+						$elem.css("transform", "scale(" + now + ")");
+					},
+					duration: settings.fadeDuration
+				}, 'linear');
+		};
 
-            $(child).css("transform", "scale(0)");
-            $(child).css("opacity", "0");
+		$(this).children().each(function (index) {
 
-            var delay = parseInt(Math.random() * settings.maxImageLoadTime);
+			var $this = $(this);
 
-            global.setTimeout((function() {
+			$this.css("transform", "scale(0)");
+			$this.css("opacity", "0");
 
-                return function() {
-                    fadeIn(child);
-                };
+			var delay = parseInt(Math.random() * settings.maxImageLoadTime);
 
-            }()), delay);
+			global.setTimeout(function () {
 
-        });
-    };
-    return this;
+				fadeIn($this);
+
+			}, delay);
+
+		});
+	};
+
+	return this;
+
 })(jQuery, window);
